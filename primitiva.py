@@ -87,7 +87,7 @@ def hmac_verify():
         print("El mensaje o la clave son incorrectos")
 
 
-def main():
+def main(): # Menú principal
     while True:
         print("\n1. Cifrar una cadena de texto usando AES")
         print("2. Descifrar un archivo binario usando AES")
