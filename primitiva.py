@@ -1,3 +1,11 @@
+# Autor: Luis Meroño
+# Fecha: 2024/03/18
+# Versión: 1.0
+# Descripción: Este script implementa las primitivas criptográficas AES, RSA y HMAC.
+#              El usuario puede seleccionar entre cifrar un mensaje con AES, descifrar un mensaje con AES,
+#              firmar un mensaje con RSA, realizar una operación HMAC sobre un mensaje con SHA256,
+#              comprobar que la firma digital se ha hecho correctamente y comprobar que el valor del HASH es correcto.
+
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Signature import pkcs1_15
@@ -11,8 +19,8 @@ def aes_encrypt(message, key):
     with open('A.bin', 'wb') as file_out: # Guarda el mensaje cifrado en un archivo
         file_out.write(cipher.nonce)
         file_out.write(ciphertext)
-    with open('key_AES.bin', 'wb') as key_out: # Guarda la clave en un archivo para su uso posterior en aes_decrypt()
-        key_out.write(key)
+    with open('key_AES.bin', 'wb') as key_out:
+        key_out.write(key) # Guarda la clave en un archivo para su uso posterior en aes_decrypt()
 
 def aes_decrypt():
     with open('key_AES.bin', 'rb') as key_in: 
@@ -50,15 +58,15 @@ def hmac_sha256(message):
 
 def rsa_verify():
     with open('public_key.pem', 'rb') as f:
-        key = RSA.import_key(f.read())
+        key = RSA.import_key(f.read()) # Lee la clave pública del archivo
     with open('message.bin', 'rb') as f:
-        message = f.read()
+        message = f.read() # Lee el mensaje del archivo 
     with open('signature.bin', 'rb') as f:
-        signature = f.read()
+        signature = f.read() # Lee la firma del archivo
 
     h = SHA256.new(message)
     try:
-        pkcs1_15.new(key).verify(h, signature)
+        pkcs1_15.new(key).verify(h, signature) # Comprueba si la firma es válida
         print("La firma es válida.")
     except (ValueError, TypeError):
         print("La firma no es válida.")
